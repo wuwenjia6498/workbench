@@ -4,7 +4,7 @@ import type { NextRequest } from 'next/server'
 // HTTP Basic Auth 认证配置
 // 注意：生产环境中应使用环境变量而非硬编码
 const BASIC_AUTH_USER = 'admin'
-const BASIC_AUTH_PASSWORD = 'laojohn2026'
+const BASIC_AUTH_PASSWORD = 'huiben888888'
 
 /**
  * 中间件函数：对所有路由进行 HTTP Basic Auth 验证
