@@ -1,5 +1,6 @@
 import { FileText, Image, Calendar, Clapperboard, Film, Sun, LucideIcon } from 'lucide-react'
 import Link from 'next/link'
+import { SMALL_TOOLS, SmallTool } from './tools/config'
 
 // 工具数据类型定义
 interface Tool {
@@ -102,10 +103,28 @@ export default function Home() {
 
       {/* Main Content 主要内容区域 */}
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        {/* 工具卡片网格布局：手机1列、平板2列、桌面3列 */}
+        {/* 主业务工具卡片网格布局：手机1列、平板2列、桌面3列 */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {TOOLS.map((tool) => (
             <ToolCard key={tool.id} tool={tool} />
+          ))}
+        </div>
+
+        {/* 分割线区域 */}
+        <div className="mt-16 mb-10">
+          <div className="flex items-center gap-4">
+            <h2 className="text-2xl font-bold text-gray-800 whitespace-nowrap">
+              🛠️ 日常用小工具
+            </h2>
+            <div className="flex-1 h-px bg-gradient-to-r from-gray-300 to-transparent"></div>
+          </div>
+          <p className="text-gray-500 text-sm mt-2">轻量级实用小工具</p>
+        </div>
+
+        {/* 小工具网格布局：更紧凑的卡片设计 */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          {SMALL_TOOLS.map((tool) => (
+            <SmallToolCard key={tool.id} tool={tool} />
           ))}
         </div>
       </main>
@@ -149,6 +168,36 @@ function ToolCard({ tool }: { tool: Tool }) {
         <p className="text-gray-600 text-sm leading-relaxed">
           {tool.description}
         </p>
+      </div>
+    </Link>
+  )
+}
+
+// 紧凑版小工具卡片组件
+// 功能：展示小工具的信息，采用更紧凑的横向布局设计
+function SmallToolCard({ tool }: { tool: SmallTool }) {
+  const Icon = tool.icon
+
+  return (
+    <Link
+      href={`/tools/${tool.id}`}
+      className="group"
+    >
+      <div className="bg-white rounded-xl shadow-sm hover:shadow-md transition-all duration-200 ease-in-out hover:-translate-y-0.5 p-4 h-20 border border-gray-100 flex items-center gap-4">
+        {/* 小图标 */}
+        <div className="flex-shrink-0 w-12 h-12 bg-gray-100 rounded-lg flex items-center justify-center group-hover:bg-blue-50 transition-colors">
+          <Icon className="w-6 h-6 text-gray-700 group-hover:text-blue-600 transition-colors" strokeWidth={2} />
+        </div>
+
+        {/* 文字信息 */}
+        <div className="flex-1 min-w-0">
+          <h3 className="text-base font-semibold text-gray-900 mb-0.5 group-hover:text-blue-600 transition-colors">
+            {tool.name}
+          </h3>
+          <p className="text-xs text-gray-500 truncate">
+            {tool.description}
+          </p>
+        </div>
       </div>
     </Link>
   )
