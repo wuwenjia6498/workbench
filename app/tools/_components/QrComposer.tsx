@@ -35,6 +35,34 @@ export default function QrComposer() {
   const [isDragging, setIsDragging] = useState(false)
   const [history, setHistory] = useState<HistoryItem[]>([])
   const [qrPosition, setQrPosition] = useState<QrPosition>('right') // 默认右下角
+  const [qrImage, setQrImage] = useState<HTMLImageElement | null>(null) // 缓存二维码图片
+  const [qrLoadError, setQrLoadError] = useState<string | null>(null) // 二维码加载错误
+
+  /**
+   * 预加载二维码图片（组件初始化时执行一次）
+   */
+  useEffect(() => {
+    const loadQrImage = async () => {
+      try {
+        const img = new Image()
+        img.crossOrigin = 'anonymous'
+        
+        await new Promise<void>((resolve, reject) => {
+          img.onload = () => resolve()
+          img.onerror = () => reject(new Error('二维码图片加载失败'))
+          img.src = '/qrcode.png'
+        })
+        
+        setQrImage(img)
+        setQrLoadError(null)
+      } catch (error) {
+        console.error('预加载二维码失败:', error)
+        setQrLoadError('二维码文件加载失败，请确保 public/qrcode.png 存在')
+      }
+    }
+
+    loadQrImage()
+  }, [])
 
   /**
    * 从 localStorage 加载历史记录
@@ -73,19 +101,15 @@ export default function QrComposer() {
    * @param baseImage 用户上传的底图
    */
   const composeImage = useCallback(async (baseImage: HTMLImageElement) => {
+    // 检查二维码图片是否已加载
+    if (!qrImage) {
+      alert('二维码图片尚未加载完成，请稍后再试')
+      return
+    }
+
     setIsProcessing(true)
 
     try {
-      // 加载二维码图片
-      const qrImage = new Image()
-      qrImage.crossOrigin = 'anonymous'
-      
-      await new Promise<void>((resolve, reject) => {
-        qrImage.onload = () => resolve()
-        qrImage.onerror = reject
-        qrImage.src = '/qrcode.png'
-      })
-
       // 获取 Canvas 和上下文
       const canvas = canvasRef.current
       if (!canvas) return
@@ -127,11 +151,11 @@ export default function QrComposer() {
       saveToHistory(composedDataUrl, baseWidth, baseHeight, qrPosition)
     } catch (error) {
       console.error('图片合成失败:', error)
-      alert('图片合成失败，请确保二维码文件存在于 public/qrcode.png')
+      alert('图片合成失败，请稍后重试')
     } finally {
       setIsProcessing(false)
     }
-  }, [saveToHistory, qrPosition])
+  }, [saveToHistory, qrPosition, qrImage])
 
   /**
    * 处理文件选择
@@ -242,6 +266,25 @@ export default function QrComposer() {
 
   return (
     <div className="space-y-6">
+      {/* 二维码加载错误提示 */}
+      {qrLoadError && (
+        <div className="bg-red-50 border border-red-200 rounded-xl p-4">
+          <div className="flex items-start gap-3">
+            <div className="text-red-500 text-xl">⚠️</div>
+            <div className="flex-1">
+              <h3 className="text-sm font-semibold text-red-800 mb-1">二维码加载失败</h3>
+              <p className="text-sm text-red-700">{qrLoadError}</p>
+              <button
+                onClick={() => window.location.reload()}
+                className="mt-2 text-xs text-red-600 hover:text-red-700 underline"
+              >
+                点击刷新页面重试
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* 主操作区域 */}
       <div className="grid lg:grid-cols-2 gap-6">
       {/* 左侧：操作区域 */}
