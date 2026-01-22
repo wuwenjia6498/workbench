@@ -4,6 +4,11 @@ import { useRef, useState, useCallback, useEffect } from 'react'
 import { Upload, Download, X, ImageIcon, Clock, Trash2 } from 'lucide-react'
 
 /**
+ * 二维码位置类型
+ */
+type QrPosition = 'left' | 'right'
+
+/**
  * 历史记录数据接口
  */
 interface HistoryItem {
@@ -12,11 +17,12 @@ interface HistoryItem {
   timestamp: number
   width: number
   height: number
+  position: QrPosition
 }
 
 /**
  * 二维码合成器组件
- * 功能：将用户上传的图片与预设的二维码合成，二维码位于右下角
+ * 功能：将用户上传的图片与预设的二维码合成，支持二维码位于左下角或右下角
  */
 export default function QrComposer() {
   // Canvas 引用
@@ -28,6 +34,7 @@ export default function QrComposer() {
   const [isProcessing, setIsProcessing] = useState(false)
   const [isDragging, setIsDragging] = useState(false)
   const [history, setHistory] = useState<HistoryItem[]>([])
+  const [qrPosition, setQrPosition] = useState<QrPosition>('right') // 默认右下角
 
   /**
    * 从 localStorage 加载历史记录
@@ -46,13 +53,14 @@ export default function QrComposer() {
   /**
    * 保存历史记录到 localStorage
    */
-  const saveToHistory = useCallback((imageData: string, width: number, height: number) => {
+  const saveToHistory = useCallback((imageData: string, width: number, height: number, position: QrPosition) => {
     const newItem: HistoryItem = {
       id: Date.now().toString(),
       imageData,
       timestamp: Date.now(),
       width,
       height,
+      position,
     }
 
     const updatedHistory = [newItem, ...history].slice(0, 20) // 最多保存 20 条记录
@@ -102,8 +110,10 @@ export default function QrComposer() {
       // 边距为底图宽度的 3%
       const padding = baseWidth * 0.03
       
-      // 计算二维码位置（右下角）
-      const qrX = baseWidth - qrSize - padding
+      // 根据用户选择计算二维码位置（左下角或右下角）
+      const qrX = qrPosition === 'left' 
+        ? padding // 左下角
+        : baseWidth - qrSize - padding // 右下角
       const qrY = baseHeight - qrSize - padding
 
       // 绘制二维码
@@ -114,14 +124,14 @@ export default function QrComposer() {
       setComposedImage(composedDataUrl)
       
       // 保存到历史记录
-      saveToHistory(composedDataUrl, baseWidth, baseHeight)
+      saveToHistory(composedDataUrl, baseWidth, baseHeight, qrPosition)
     } catch (error) {
       console.error('图片合成失败:', error)
       alert('图片合成失败，请确保二维码文件存在于 public/qrcode.png')
     } finally {
       setIsProcessing(false)
     }
-  }, [saveToHistory])
+  }, [saveToHistory, qrPosition])
 
   /**
    * 处理文件选择
@@ -275,6 +285,61 @@ export default function QrComposer() {
           </div>
         </div>
 
+        {/* 二维码位置选择器 */}
+        <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-4">
+          <div className="flex items-center justify-between">
+            <h3 className="text-sm font-medium text-gray-700">二维码位置</h3>
+            
+            <div className="flex items-center gap-2">
+              {/* 左下角选项 */}
+              <button
+                onClick={() => {
+                  setQrPosition('left')
+                  // 如果已有图片，重新合成
+                  if (uploadedImage) {
+                    composeImage(uploadedImage)
+                  }
+                }}
+                className={`
+                  flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-all
+                  ${qrPosition === 'left'
+                    ? 'bg-blue-500 text-white shadow-sm'
+                    : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                  }
+                `}
+              >
+                <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+                </svg>
+                左下
+              </button>
+
+              {/* 右下角选项 */}
+              <button
+                onClick={() => {
+                  setQrPosition('right')
+                  // 如果已有图片，重新合成
+                  if (uploadedImage) {
+                    composeImage(uploadedImage)
+                  }
+                }}
+                className={`
+                  flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-all
+                  ${qrPosition === 'right'
+                    ? 'bg-blue-500 text-white shadow-sm'
+                    : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                  }
+                `}
+              >
+                <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+                </svg>
+                右下
+              </button>
+            </div>
+          </div>
+        </div>
+
         {/* 当前图片信息和操作按钮 */}
         {uploadedImage && (
           <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 space-y-3">
@@ -321,7 +386,7 @@ export default function QrComposer() {
           </div>
 
           <p className="text-xs text-gray-500 mt-3 text-center">
-            ✓ 二维码已添加到右下角
+            ✓ 二维码已添加到{qrPosition === 'left' ? '左' : '右'}下角
           </p>
         </div>
       ) : (
@@ -407,7 +472,7 @@ export default function QrComposer() {
                     {item.width} × {item.height}
                   </p>
                   <p className="text-[10px] text-gray-400 leading-tight">
-                    {formatTime(item.timestamp)}
+                    {item.position === 'left' ? '左下' : '右下'} · {formatTime(item.timestamp)}
                   </p>
                 </div>
               </div>

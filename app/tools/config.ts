@@ -18,7 +18,7 @@ export const SMALL_TOOLS: SmallTool[] = [
   {
     id: 'qr-composer',
     name: '二维码合成器',
-    description: '自动在图片右下角添加二维码',
+    description: '自动在图片左下角或右下角添加二维码',
     icon: QrCode,
   },
   {
