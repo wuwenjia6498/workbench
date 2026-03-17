@@ -1,4 +1,4 @@
-import { FileText, Image, Calendar, Clapperboard, Film, Sun, LucideIcon } from 'lucide-react'
+import { FileText, Image, Calendar, Clapperboard, Film, Sun, PenLine, GraduationCap, LucideIcon } from 'lucide-react'
 import Link from 'next/link'
 import { SMALL_TOOLS, SmallTool } from './tools/config'
 
@@ -73,6 +73,26 @@ const TOOLS: Tool[] = [
     color: 'text-rose-600',
     bgColor: 'bg-rose-50',
     gradient: 'from-rose-500/10 to-rose-600/5',
+  },
+  {
+    id: 'writing-assistant',
+    name: '写作助手',
+    description: '自动化写作工作流',
+    url: 'https://write.skyline666.top/',
+    icon: PenLine,
+    color: 'text-teal-600',
+    bgColor: 'bg-teal-50',
+    gradient: 'from-teal-500/10 to-teal-600/5',
+  },
+  {
+    id: 'student-work-poster',
+    name: '学生习作展示海报生成器',
+    description: '上传学生手写稿，自动识别内容并生成评语，支持下载保存',
+    url: 'https://stuwork.skyline666.top/',
+    icon: GraduationCap,
+    color: 'text-cyan-600',
+    bgColor: 'bg-cyan-50',
+    gradient: 'from-cyan-500/10 to-cyan-600/5',
   },
 ]
 
