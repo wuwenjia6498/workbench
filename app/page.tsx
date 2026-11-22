@@ -1,6 +1,5 @@
-import { Image, Calendar, Film, PenLine, GraduationCap, MessagesSquare, ClipboardCheck, ListChecks, BookMarked, Scale, TrendingUp, Compass, Library, Languages, LucideIcon } from 'lucide-react'
+import { Image, Calendar, PenLine, GraduationCap, MessagesSquare, ClipboardCheck, BookMarked, Scale, TrendingUp, Compass, Library, Languages, LucideIcon } from 'lucide-react'
 import Link from 'next/link'
-import { SMALL_TOOLS, SmallTool } from './tools/config'
 
 interface Tool {
   id: string
@@ -33,16 +32,6 @@ const TOOLS: Tool[] = [
     color: 'text-emerald-600',
     bgColor: 'bg-emerald-50',
     gradient: 'from-emerald-500/10 to-emerald-600/5',
-  },
-  {
-    id: 'video-collection',
-    name: '短片资源库',
-    description: '汇集周末放映室精选短片',
-    url: 'https://shortfilm.skyline666.top/',
-    icon: Film,
-    color: 'text-rose-600',
-    bgColor: 'bg-rose-50',
-    gradient: 'from-rose-500/10 to-rose-600/5',
   },
   {
     id: 'writing-assistant',
@@ -83,16 +72,6 @@ const TOOLS: Tool[] = [
     color: 'text-sky-600',
     bgColor: 'bg-sky-50',
     gradient: 'from-sky-500/10 to-sky-600/5',
-  },
-  {
-    id: 'book-test-analysis',
-    name: '一书一测批改分析',
-    description: '读书会「一书一测」批改与分析',
-    url: 'https://pigan.skyline666.top/',
-    icon: ListChecks,
-    color: 'text-lime-600',
-    bgColor: 'bg-lime-50',
-    gradient: 'from-lime-500/10 to-lime-600/5',
   },
 ]
 
@@ -167,22 +146,13 @@ export default function Home() {
 
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           <div className="flex items-center gap-4">
-            <div className="relative flex-shrink-0">
-              <div className="absolute inset-0 bg-gradient-to-br from-blue-400/20 to-purple-400/20 rounded-full blur-md" />
-              <img
-                src="/logo.jpg"
-                alt="老约翰绘本馆"
-                className="relative w-14 h-14 sm:w-16 sm:h-16 rounded-full object-cover ring-2 ring-white shadow-lg"
-              />
-            </div>
-
             <div>
               <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold tracking-tight mb-1"
                   style={{
                     color: '#2D415E',
                     textShadow: '0 1px 2px rgba(0,0,0,0.05)'
                   }}>
-                老约翰工作台
+                我的工作台
               </h1>
               <p className="text-xs sm:text-sm text-slate-600 font-medium">
                 内部工具集中导航
@@ -198,14 +168,6 @@ export default function Home() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 lg:gap-6">
           {TOOLS.map((tool) => (
             <ToolCard key={tool.id} tool={tool} />
-          ))}
-        </div>
-
-        <SectionHeader title="日常小工具" subtitle="轻量实用工具集合" className="mt-14 mb-8" small />
-
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {SMALL_TOOLS.map((tool) => (
-            <SmallToolCard key={tool.id} tool={tool} />
           ))}
         </div>
 
@@ -275,40 +237,6 @@ function ToolCard({ tool }: { tool: Tool }) {
           <p className="text-slate-600 text-sm leading-relaxed font-medium">
             {tool.description}
           </p>
-        </div>
-      </div>
-    </Link>
-  )
-}
-
-function SmallToolCard({ tool }: { tool: SmallTool }) {
-  const Icon = tool.icon
-
-  return (
-    <Link
-      href={`/tools/${tool.id}`}
-      className="group"
-    >
-      <div className="relative bg-white rounded-xl shadow-sm hover:shadow-md transition-all duration-300 ease-out hover:-translate-y-0.5 p-4 border border-slate-200/60 overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-slate-50/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-
-        <div className="relative flex items-center gap-4">
-          <div className="flex-shrink-0 w-12 h-12 bg-gradient-to-br from-slate-100 to-slate-50 rounded-xl flex items-center justify-center group-hover:from-blue-50 group-hover:to-blue-100/50 transition-all duration-300 ring-1 ring-slate-900/5">
-            <Icon className="w-6 h-6 text-slate-600 group-hover:text-blue-600 group-hover:scale-110 transition-all duration-300" strokeWidth={1.5} />
-          </div>
-
-          <div className="flex-1 min-w-0">
-            <h3 className="text-base font-bold text-slate-900 mb-0.5 group-hover:text-blue-600 transition-colors duration-300 tracking-tight">
-              {tool.name}
-            </h3>
-            <p className="text-xs text-slate-500 truncate font-medium">
-              {tool.description}
-            </p>
-          </div>
-
-          <svg className="w-5 h-5 text-slate-300 group-hover:text-blue-400 group-hover:translate-x-0.5 transition-all duration-300 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-          </svg>
         </div>
       </div>
     </Link>

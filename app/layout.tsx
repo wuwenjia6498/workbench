@@ -2,8 +2,8 @@ import type { Metadata } from 'next'
 import './globals.css'
 
 export const metadata: Metadata = {
-  title: '老约翰工作台 | Lao John Workbench',
-  description: '老约翰内部运营工具导航门户',
+  title: '我的工作台',
+  description: '工作与个人工具导航',
 }
 
 export default function RootLayout({
