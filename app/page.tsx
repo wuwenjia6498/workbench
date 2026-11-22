@@ -1,4 +1,4 @@
-import { Image, Calendar, Film, PenLine, GraduationCap, LucideIcon } from 'lucide-react'
+import { Image, Calendar, Film, PenLine, GraduationCap, MessagesSquare, ClipboardCheck, ListChecks, BookMarked, Scale, TrendingUp, Compass, Library, Languages, LucideIcon } from 'lucide-react'
 import Link from 'next/link'
 import { SMALL_TOOLS, SmallTool } from './tools/config'
 
@@ -64,6 +64,99 @@ const TOOLS: Tool[] = [
     bgColor: 'bg-cyan-50',
     gradient: 'from-cyan-500/10 to-cyan-600/5',
   },
+  {
+    id: 'group-share-review',
+    name: '读书会群分享回顾',
+    description: '读书会社群分享内容回顾',
+    url: 'https://teachhub.skyline666.top/',
+    icon: MessagesSquare,
+    color: 'text-indigo-600',
+    bgColor: 'bg-indigo-50',
+    gradient: 'from-indigo-500/10 to-indigo-600/5',
+  },
+  {
+    id: 'sync-writing-grader',
+    name: '同步习作批改助手',
+    description: '老约翰同步习作 AI 批改',
+    url: 'https://grader.skyline666.top/',
+    icon: ClipboardCheck,
+    color: 'text-sky-600',
+    bgColor: 'bg-sky-50',
+    gradient: 'from-sky-500/10 to-sky-600/5',
+  },
+  {
+    id: 'book-test-analysis',
+    name: '一书一测批改分析',
+    description: '读书会「一书一测」批改与分析',
+    url: 'https://pigan.skyline666.top/',
+    icon: ListChecks,
+    color: 'text-lime-600',
+    bgColor: 'bg-lime-50',
+    gradient: 'from-lime-500/10 to-lime-600/5',
+  },
+]
+
+const PERSONAL_TOOLS: Tool[] = [
+  {
+    id: 'sbr-sprint',
+    name: 'SBR 冲刺',
+    description: 'Strategic Business Reporting 冲刺复习',
+    url: 'https://sbr-stu.skyline666.top/',
+    icon: BookMarked,
+    color: 'text-violet-600',
+    bgColor: 'bg-violet-50',
+    gradient: 'from-violet-500/10 to-violet-600/5',
+  },
+  {
+    id: 'sbr-review',
+    name: 'SBR 复习台',
+    description: '准则速查与情景定位',
+    url: 'https://acca-sbr.skyline666.top/',
+    icon: Scale,
+    color: 'text-fuchsia-600',
+    bgColor: 'bg-fuchsia-50',
+    gradient: 'from-fuchsia-500/10 to-fuchsia-600/5',
+  },
+  {
+    id: 'dividend-dashboard',
+    name: '高股息投资看板',
+    description: '高股息标的跟踪看板',
+    url: 'https://ggxkb.skyline666.top/',
+    icon: TrendingUp,
+    color: 'text-red-600',
+    bgColor: 'bg-red-50',
+    gradient: 'from-red-500/10 to-red-600/5',
+  },
+  {
+    id: 'fishbowl-etf',
+    name: '鱼盆·ETF 趋势罗盘',
+    description: '基于鱼盆模型的 ETF 轮动与大势择时',
+    url: 'https://fishbowl.skyline666.top/',
+    icon: Compass,
+    color: 'text-blue-600',
+    bgColor: 'bg-blue-50',
+    gradient: 'from-blue-500/10 to-blue-600/5',
+  },
+  {
+    id: 'home-library',
+    name: '家庭图书管理系统',
+    description: '家里藏书登记与管理',
+    url: 'https://library.skyline666.top/',
+    icon: Library,
+    color: 'text-amber-600',
+    bgColor: 'bg-amber-50',
+    gradient: 'from-amber-500/10 to-amber-600/5',
+  },
+  {
+    id: 'tech-english',
+    name: 'Tech English Trainer',
+    description: '技术英语练习',
+    url: 'https://tech-trainer.skyline666.top/',
+    icon: Languages,
+    color: 'text-emerald-600',
+    bgColor: 'bg-emerald-50',
+    gradient: 'from-emerald-500/10 to-emerald-600/5',
+  },
 ]
 
 export default function Home() {
@@ -100,30 +193,27 @@ export default function Home() {
       </header>
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
+        <SectionHeader title="公司" subtitle="老约翰儿童阅读工作工具" className="mb-8" />
+
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 lg:gap-6">
           {TOOLS.map((tool) => (
             <ToolCard key={tool.id} tool={tool} />
           ))}
         </div>
 
-        <div className="mt-20 mb-12">
-          <div className="flex items-center gap-6">
-            <div className="flex items-center gap-3">
-              <div className="w-1.5 h-7 bg-gradient-to-b from-slate-400 to-slate-300 rounded-full" />
-              <h2 className="text-xl font-bold text-slate-800 tracking-tight">
-                日常小工具
-              </h2>
-            </div>
-            <div className="flex-1 h-px bg-gradient-to-r from-slate-200 via-slate-100 to-transparent" />
-          </div>
-          <p className="text-slate-500 text-sm mt-3 ml-6 pl-3">
-            轻量实用工具集合
-          </p>
-        </div>
+        <SectionHeader title="日常小工具" subtitle="轻量实用工具集合" className="mt-14 mb-8" small />
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {SMALL_TOOLS.map((tool) => (
             <SmallToolCard key={tool.id} tool={tool} />
+          ))}
+        </div>
+
+        <SectionHeader title="个人" subtitle="学习、投资与生活" className="mt-20 mb-8" />
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 lg:gap-6">
+          {PERSONAL_TOOLS.map((tool) => (
+            <ToolCard key={tool.id} tool={tool} />
           ))}
         </div>
       </main>
@@ -135,6 +225,25 @@ export default function Home() {
           </p>
         </div>
       </footer>
+    </div>
+  )
+}
+
+function SectionHeader({ title, subtitle, className = '', small = false }: { title: string; subtitle: string; className?: string; small?: boolean }) {
+  return (
+    <div className={className}>
+      <div className="flex items-center gap-6">
+        <div className="flex items-center gap-3">
+          <div className={`w-1.5 ${small ? 'h-6' : 'h-7'} bg-gradient-to-b from-slate-400 to-slate-300 rounded-full`} />
+          <h2 className={`${small ? 'text-lg' : 'text-xl'} font-bold text-slate-800 tracking-tight`}>
+            {title}
+          </h2>
+        </div>
+        <div className="flex-1 h-px bg-gradient-to-r from-slate-200 via-slate-100 to-transparent" />
+      </div>
+      <p className="text-slate-500 text-sm mt-3 ml-6 pl-3">
+        {subtitle}
+      </p>
     </div>
   )
 }
