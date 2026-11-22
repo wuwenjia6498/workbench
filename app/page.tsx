@@ -1,4 +1,4 @@
-import { FileText, Image, Calendar, Clapperboard, Film, Sun, PenLine, GraduationCap, LucideIcon } from 'lucide-react'
+import { Image, Calendar, Film, PenLine, GraduationCap, LucideIcon } from 'lucide-react'
 import Link from 'next/link'
 import { SMALL_TOOLS, SmallTool } from './tools/config'
 
@@ -15,16 +15,6 @@ interface Tool {
 
 const TOOLS: Tool[] = [
   {
-    id: 'copywriting',
-    name: '文案生成助手',
-    description: '批量生成加油365社群文案',
-    url: 'https://text.skyline666.top/',
-    icon: FileText,
-    color: 'text-blue-600',
-    bgColor: 'bg-blue-50',
-    gradient: 'from-blue-500/10 to-blue-600/5',
-  },
-  {
     id: 'image-generator',
     name: '智能配图工具',
     description: '基于文案自动匹配插图',
@@ -35,16 +25,6 @@ const TOOLS: Tool[] = [
     gradient: 'from-purple-500/10 to-purple-600/5',
   },
   {
-    id: 'morning-evening-poster',
-    name: '早晚安海报生成',
-    description: '根据预设模板快速生成早晚安海报',
-    url: 'https://poster.skyline666.top/',
-    icon: Sun,
-    color: 'text-amber-600',
-    bgColor: 'bg-amber-50',
-    gradient: 'from-amber-500/10 to-amber-600/5',
-  },
-  {
     id: 'material-upload',
     name: '每日素材归档',
     description: '按日期有序存储每日社群素材',
@@ -53,16 +33,6 @@ const TOOLS: Tool[] = [
     color: 'text-emerald-600',
     bgColor: 'bg-emerald-50',
     gradient: 'from-emerald-500/10 to-emerald-600/5',
-  },
-  {
-    id: 'poster-generator',
-    name: '周末放映室海报',
-    description: '输入链接自动提取信息，同步生成宣传海报',
-    url: 'https://cinema.skyline666.top/',
-    icon: Clapperboard,
-    color: 'text-orange-600',
-    bgColor: 'bg-orange-50',
-    gradient: 'from-orange-500/10 to-orange-600/5',
   },
   {
     id: 'video-collection',
