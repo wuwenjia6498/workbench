@@ -1,10 +1,10 @@
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
 
-// HTTP Basic Auth 认证配置
-// 注意：生产环境中应使用环境变量而非硬编码
-const BASIC_AUTH_USER = 'admin'
-const BASIC_AUTH_PASSWORD = 'huiben888888'
+// HTTP Basic Auth 认证配置：账号密码只放在环境变量里（本仓库公开，不能写进代码）
+// 本地写在 .env.local，线上在 Vercel 项目的 Environment Variables
+const BASIC_AUTH_USER = process.env.WORKBENCH_USER
+const BASIC_AUTH_PASSWORD = process.env.WORKBENCH_PASSWORD
 
 /**
  * 中间件函数：对所有路由进行 HTTP Basic Auth 验证
@@ -30,8 +30,8 @@ export function middleware(request: NextRequest) {
   const auth = authHeader.split(' ')[1]
   const [user, password] = Buffer.from(auth, 'base64').toString().split(':')
 
-  // 验证用户名和密码
-  if (user === BASIC_AUTH_USER && password === BASIC_AUTH_PASSWORD) {
+  // 验证用户名和密码（环境变量没配时一律拒绝，避免空密码放行）
+  if (BASIC_AUTH_USER && BASIC_AUTH_PASSWORD && user === BASIC_AUTH_USER && password === BASIC_AUTH_PASSWORD) {
     // 认证成功，允许继续访问
     return NextResponse.next()
   }

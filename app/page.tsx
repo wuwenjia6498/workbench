@@ -183,7 +183,7 @@ export default function Home() {
       <footer className="relative bg-white/60 backdrop-blur-sm border-t border-slate-200/60 mt-24">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           <p className="text-center text-slate-500 text-sm font-medium">
-            © 2026 老约翰儿童阅读
+            © 2026 skyline666
           </p>
         </div>
       </footer>
@@ -200,12 +200,12 @@ function SectionHeader({ title, subtitle, className = '', small = false }: { tit
           <h2 className={`${small ? 'text-lg' : 'text-xl'} font-bold text-slate-800 tracking-tight`}>
             {title}
           </h2>
+          <span className="text-slate-500 text-sm">
+            {subtitle}
+          </span>
         </div>
         <div className="flex-1 h-px bg-gradient-to-r from-slate-200 via-slate-100 to-transparent" />
       </div>
-      <p className="text-slate-500 text-sm mt-3 ml-6 pl-3">
-        {subtitle}
-      </p>
     </div>
   )
 }
